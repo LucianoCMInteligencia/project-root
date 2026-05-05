@@ -1,0 +1,244 @@
+﻿:root{
+  --primary-color: #45a29e;
+  --accent-color: #66fcf1;
+  --bg-color: #0b0c10;
+  --panel-bg: #11141b;
+  --muted-bg: #151820;
+  --muted-border: #222;
+  --text-color: #f5f5f5;
+  --muted-text: #9fd3c7;
+  --muted-plain: #666666;
+  --danger: #ff4d4d;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Reset / base */
+* {
+  box-sizing: border-box;
+  font-family: var(--font-sans);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Topbar */
+.topbar {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--muted-border);
+  background: var(--panel-bg);
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: calc(100vh - 64px);
+  gap: 0;
+}
+
+/* Left panel */
+.left-panel {
+  padding: 1rem;
+  border-right: 1px solid var(--muted-border);
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+
+.left-panel h2 {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-text);
+}
+
+/* Blocks list (if used) */
+#blocksList {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+#blocksList li {
+  padding: 0.4rem 0.5rem;
+  margin-bottom: 0.3rem;
+  background: var(--muted-bg);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Buttons */
+button {
+  background: var(--primary-color);
+  color: #0b0c10;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 120ms ease;
+}
+
+button:hover,
+button:focus {
+  background: var(--accent-color);
+  outline: none;
+}
+
+/* Export output textarea (if present) */
+#exportOutput {
+  width: 100%;
+  height: 120px;
+  margin-top: 0.5rem;
+  background: #050608;
+  color: var(--text-color);
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+/* Canvas / status */
+.canvas-panel {
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+#status {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+
+/* Download link */
+#downloadLink {
+  display: none;
+  color: #0b0c10;
+  background: var(--accent-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+#downloadLink.visible {
+  display: inline-block;
+}
+
+/* File label */
+.file-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--muted-text);
+}
+
+/* Style selector */
+.style-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 8px;
+}
+
+#styleSelect {
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #222;
+  background: #0f1114;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+/* Progress UI */
+.progress-container {
+  margin-top: 12px;
+}
+
+/* Correct prefix order: -webkit-appearance before appearance */
+progress#progressBar {
+  width: 100%;
+  height: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+progress#progressBar::-webkit-progress-bar {
+  background: rgba(255,255,255,0.03);
+}
+
+progress#progressBar::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+/* Blocks drawn over image (if used) */
+.block-rect {
+  position: absolute;
+  border: 2px dashed var(--accent-color);
+  background: rgba(102, 252, 241, 0.06);
+  cursor: move;
+  border-radius: 4px;
+}
+
+.block-rect.selected {
+  border-style: solid;
+}
+
+/* Footer */
+footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--muted-border);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+footer p {
+  margin: 0;
+  color: #9aa0a6;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .left-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--muted-border);
+  }
+  .canvas-panel {
+    padding: 1rem;
+  }
+}
+
+/* Utility */
+.hidden {
+  display: none !important;
+}

@@ -9,33 +9,53 @@
 <body>
   <header class="topbar">
     <h1>Convertidor de Archivos a PowerPoint</h1>
-    <p>Sube archivos y conviÃ©rtelos a PPTX fÃ¡cilmente.</p>
+    <p>Sube archivos y conviértelos a PPTX fácilmente.</p>
   </header>
 
   <main class="layout">
     <section class="left-panel">
       <h2>1. Subir archivos</h2>
       <label for="fileInput" class="file-label">Selecciona archivos admitidos</label>
-      <input type="file" id="fileInput" multiple accept=".txt,.jpg,.jpeg,.png,.gif" />
+      <input type="file" id="fileInput" aria-label="Selecciona archivos a convertir" multiple accept=".txt,.jpg,.jpeg,.png,.gif" />
 
       <h2>2. Convertir</h2>
-      <button id="convertBtn">Convertir a PPTX</button>
+      <button id="convertBtn" aria-label="Convertir archivos seleccionados a PPTX">Convertir a PPTX</button>
 
-      <h2>3. Descargar</h2>
-      <a id="downloadLink" download="converted.pptx">Descargar PPTX</a>
+      <!-- Selector de estilo -->
+      <div class="style-control">
+        <label for="styleSelect">Estilo de diapositiva</label>
+        <select id="styleSelect" aria-label="Seleccionar estilo de diapositiva">
+          <option value="TEMPLATE_SIMPLE">Simple</option>
+          <option value="TEMPLATE_MODERN">Moderno</option>
+          <option value="TEMPLATE_DARK">Oscuro</option>
+        </select>
+      </div>
+
+      <!-- Barra de progreso (oculta hasta su uso) -->
+      <div id="progressContainer" class="progress-container hidden" aria-hidden="true">
+        <label for="progressBar" id="progressLabel" class="progress-label">Progreso</label>
+        <progress id="progressBar" value="0" max="100"></progress>
+        <div id="progressText" class="progress-text">0 / 0</div>
+      </div>
+
+      <h2 class="download-heading">3. Descargar</h2>
+      <a id="downloadLink" download="converted.pptx" class="download-link hidden" aria-hidden="true">Descargar PPTX</a>
     </section>
 
     <section class="canvas-panel">
-      <div id="status">Selecciona archivos para convertir.</div>
+      <div id="status" aria-live="polite">Selecciona archivos para convertir.</div>
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.min.js"></script>
   <script src="app.js"></script>
+
   <footer>
     <p>&copy; 2023 Convertidor de Archivos a PowerPoint. Todos los derechos reservados.</p>
-<a target="_blank" href="//aff.lucushost.com/resources/click/?n=KlEDN6vk&aff=460"><img border="0" alt="LucusHost, el mejor hosting" src="//aff.lucushost.com/resources/banners/?zoneid=2747&n=KlEDN6vk&aff=460" /></a>
+    <a target="_blank" rel="noopener noreferrer" href="//aff.lucushost.com/resources/click/?n=KlEDN6vk&aff=460">
+      <img border="0" alt="LucusHost, el mejor hosting" src="//aff.lucushost.com/resources/banners/?zoneid=2747&n=KlEDN6vk&aff=460" />
+    </a>
   </footer>
 </body>
 </html>
