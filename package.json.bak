@@ -1,0 +1,20 @@
+{
+  "name": "file-to-pptx-converter",
+  "version": "1.0.0",
+  "description": "A simple file converter to Microsoft PowerPoint",
+  "main": "app.js",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": ["pptx", "converter", "powerpoint"],
+  "author": "Your Name",
+  "license": "MIT"
+}</content>
+<parameter name="filePath">c:\Users\lucia\Desktop\project-root\package.json
