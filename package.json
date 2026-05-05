@@ -1,12 +1,19 @@
-# Hacer copia de seguridad
-Copy-Item .\package.json .\package.json.bak -Force
-
-# Leer todo, recortar después del último '}', reescribir en UTF-8 sin BOM
-$s = Get-Content .\package.json -Raw
-$idx = $s.LastIndexOf('}')
-if ($idx -lt 0) { Write-Error "No se encontró '}' en package.json"; exit 1 }
-$s2 = $s.Substring(0, $idx + 1)
-[System.IO.File]::WriteAllText((Resolve-Path .\package.json).Path, $s2, (New-Object System.Text.UTF8Encoding($false)))
-
-# Mostrar las últimas líneas para confirmar
-Get-Content .\package.json | Select-Object -Last 10
+{
+  "name": "file-to-pptx-converter",
+  "version": "1.0.0",
+  "description": "A simple file converter to Microsoft PowerPoint",
+  "main": "app.js",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo \"No build step required\""
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": ["pptx", "converter", "powerpoint"],
+  "author": "Your Name",
+  "license": "MIT"
+}
