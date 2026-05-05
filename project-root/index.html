@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convertidor de Archivos a PowerPoint</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Convertidor de Archivos a PowerPoint</h1>
+    <p>Sube archivos y conviértelos a PPTX fácilmente.</p>
+  </header>
+
+  <main class="layout">
+    <section class="left-panel">
+      <h2>1. Subir archivos</h2>
+      <label for="fileInput" class="file-label">Selecciona archivos admitidos</label>
+      <input type="file" id="fileInput" multiple accept=".txt,.jpg,.jpeg,.png,.gif" />
+
+      <h2>2. Convertir</h2>
+      <button id="convertBtn">Convertir a PPTX</button>
+
+      <h2>3. Descargar</h2>
+      <a id="downloadLink" download="converted.pptx">Descargar PPTX</a>
+    </section>
+
+    <section class="canvas-panel">
+      <div id="status">Selecciona archivos para convertir.</div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.min.js"></script>
+  <script src="app.js"></script>
+  <footer>
+    <p>&copy; 2023 Convertidor de Archivos a PowerPoint. Todos los derechos reservados.</p>
+<a target="_blank" href="//aff.lucushost.com/resources/click/?n=KlEDN6vk&aff=460"><img border="0" alt="LucusHost, el mejor hosting" src="//aff.lucushost.com/resources/banners/?zoneid=2747&n=KlEDN6vk&aff=460" /></a>
+  </footer>
+</body>
+</html>
