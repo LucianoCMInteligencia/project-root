@@ -90,6 +90,27 @@ button:hover {
   font-size: 1.2rem;
   color: #66fcf1;
 }
+
+#downloadLink {
+  display: none;
+  color: #0b0c10;
+  background: #66fcf1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+#downloadLink.visible {
+  display: inline-block;
+}
+
+.file-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #9fd3c7;
 }
 
 /* Bloques dibujados encima de la imagen */
