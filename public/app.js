@@ -1,4 +1,4 @@
-// app.js — versión completa y corregida (selección de estilo, masters dinámicos, progreso y persistencia)
+// app.js — archivo completo para reemplazar (correcciones: descarga programática, logs, progreso, persistencia)
 
 // Elementos del DOM
 const fileInput = document.getElementById("fileInput");
@@ -60,7 +60,6 @@ function getCssValue(varName, fallback) {
 }
 
 function getStyleConfigFromPage() {
-  // Intenta leer variables CSS; si no existen, usa valores por defecto
   const primary = getCssValue('--primary-color', '#003366');
   const accent = getCssValue('--accent-color', '#FF6A00');
   const bg = getCssValue('--bg-color', '#FFFFFF');
@@ -111,7 +110,7 @@ function defineMastersFromCss(pres) {
   });
 }
 
-// Fallback: masters estáticos (por si no quieres mapear CSS)
+// Fallback: masters estáticos
 function defineMastersStatic(pres) {
   pres.defineSlideMaster({
     title: "TEMPLATE_SIMPLE",
@@ -234,7 +233,7 @@ if (styleSelect) {
 
 function showProgress(totalFiles) {
   if (!progressContainer || !progressBar || !progressText) return;
-  progressContainer.style.display = "block";
+  progressContainer.classList.remove("hidden");
   progressContainer.setAttribute("aria-hidden", "false");
   progressBar.value = 0;
   progressBar.max = totalFiles;
@@ -249,7 +248,7 @@ function updateProgress(processed, total) {
 
 function hideProgress() {
   if (!progressContainer) return;
-  progressContainer.style.display = "none";
+  progressContainer.classList.add("hidden");
   progressContainer.setAttribute("aria-hidden", "true");
 }
 
@@ -263,9 +262,12 @@ convertBtn.addEventListener("click", async () => {
 
   convertBtn.disabled = true;
   statusDiv.textContent = "Iniciando conversión...";
+  console.log("Conversión iniciada. Archivos seleccionados:", files.length);
+
   if (downloadLink) {
     downloadLink.classList.remove("visible");
     downloadLink.href = "";
+    downloadLink.classList.add("hidden");
     downloadLink.setAttribute("aria-hidden", "true");
   }
 
@@ -278,10 +280,12 @@ convertBtn.addEventListener("click", async () => {
     try {
       defineMastersFromCss(pptx);
     } catch (e) {
+      console.warn("defineMastersFromCss falló, usando masters estáticos:", e);
       defineMastersStatic(pptx);
     }
   } catch (err) {
     statusDiv.textContent = "No se pudo inicializar la librería PPTX: " + (err?.message || err);
+    console.error("Error inicializando PptxGenJS:", err);
     convertBtn.disabled = false;
     return;
   }
@@ -295,6 +299,7 @@ convertBtn.addEventListener("click", async () => {
     for (let i = 0; i < files.length; i += 1) {
       const file = files[i];
       statusDiv.textContent = `Procesando ${i + 1}/${files.length}: ${file.name}`;
+      console.log(`Procesando archivo ${i + 1}/${files.length}:`, file.name);
 
       const fileKind = getFileType(file);
       if (fileKind === "Imagen") {
@@ -309,19 +314,53 @@ convertBtn.addEventListener("click", async () => {
     }
 
     statusDiv.textContent = "Generando PPTX...";
+    console.log("Generando blob PPTX...");
     const blob = await pptx.write("blob");
+    console.log("Blob generado, tamaño (bytes):", blob.size);
+
+    // Crear URL y forzar descarga programáticamente
     const url = URL.createObjectURL(blob);
+    try {
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "converted.pptx";
+      document.body.appendChild(a);
 
-    if (downloadLink) {
-      downloadLink.href = url;
-      downloadLink.download = "converted.pptx";
-      downloadLink.classList.add("visible");
-      downloadLink.setAttribute("aria-hidden", "false");
+      console.log("Disparando descarga automática...");
+      a.click();
+      a.remove();
+
+      // Mantener enlace visible como respaldo
+      if (downloadLink) {
+        downloadLink.href = url;
+        downloadLink.download = "converted.pptx";
+        downloadLink.classList.add("visible");
+        downloadLink.classList.remove("hidden");
+        downloadLink.setAttribute("aria-hidden", "false");
+      }
+
+      statusDiv.textContent = "Conversión completada. Si la descarga no inició, usa el enlace de descarga.";
+    } catch (err) {
+      console.error("Error al forzar descarga automática:", err);
+      // Fallback: mostrar enlace para que el usuario haga click manualmente
+      if (downloadLink) {
+        downloadLink.href = url;
+        downloadLink.download = "converted.pptx";
+        downloadLink.classList.add("visible");
+        downloadLink.classList.remove("hidden");
+        downloadLink.setAttribute("aria-hidden", "false");
+      }
+      statusDiv.textContent = "Conversión completada. Haz clic en descargar.";
+    } finally {
+      // Revocar la URL tras un pequeño retardo para dar tiempo al navegador a iniciar la descarga
+      setTimeout(() => {
+        try { URL.revokeObjectURL(url); console.log("URL revocada"); } catch (e) { /* ignore */ }
+      }, 3000);
     }
-
-    statusDiv.textContent = "Conversión completada. Haz clic en descargar.";
   } catch (err) {
     statusDiv.textContent = "Error en la conversión: " + (err?.message || err);
+    console.error("Error durante la conversión:", err);
   } finally {
     convertBtn.disabled = false;
     setTimeout(hideProgress, 800);
